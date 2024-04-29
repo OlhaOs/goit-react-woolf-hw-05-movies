@@ -1,0 +1,8 @@
+.reviewSection {
+  display: flex;
+  padding: 20px;
+  border-bottom: 1px solid rgb(170, 166, 166);
+  box-shadow: 1px 1px 4px 1px rgb(170, 166, 166, 0.6);
+  border-radius: 2px;
+  background-color: rgb(218, 216, 216, 0.2);
+}

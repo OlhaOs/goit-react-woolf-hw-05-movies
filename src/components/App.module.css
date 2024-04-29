@@ -4,20 +4,21 @@ header {
   justify-content: flex-start;
   gap: 12px;
   padding: 8px 0 8px 12px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 
-  box-shadow: rgba(118, 82, 159, 0.8) 0px 30px 60px -12px inset,
-    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+  border-bottom: 1px solid rgb(170, 166, 166);
+  box-shadow: 1px 1px 4px 1px rgb(170, 166, 166, 0.6);
+  border-radius: 2px;
+  background-color: rgb(218, 216, 216, 0.2);
 }
 .navLink {
   padding: 8px 16px;
   border-radius: 4px;
   text-decoration: none;
-  color: rgba(57, 16, 103, 0.8);
+
   font-weight: 500;
 
   &:hover {
-    color: white;
-    background-color: rgba(118, 82, 159, 0.8);
+    scale: calc(1.1);
   }
 }

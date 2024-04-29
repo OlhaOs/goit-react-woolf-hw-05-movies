@@ -1,3 +1,7 @@
 .listItem {
-    
+  margin-bottom: 10px;
+
+  &:hover {
+    font-weight: 500;
+  }
 }

@@ -1,0 +1,35 @@
+.castSection {
+  display: flex;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgb(170, 166, 166);
+  box-shadow: 1px 1px 4px 1px rgb(170, 166, 166, 0.6);
+  border-radius: 2px;
+  background-color: rgb(218, 216, 216, 0.2);
+}
+.castList {
+  display: flex;
+  padding: 10px;
+  gap: 20px 10px;
+  flex-wrap: wrap;
+
+  justify-content: space-around;
+}
+.castListItem {
+  max-width: 200px;
+  text-align: center;
+}
+.castImg {
+  display: block;
+  box-shadow: 1px 4px 4px 4px rgb(170, 166, 166, 0.6);
+  border-radius: 2px;
+}
+.castName {
+  font-weight: 500;
+}
+.castText {
+  word-wrap: break-word;
+}
+.castImgPlaceholder {
+  width: 200px;
+}

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { getTrendingMovies } from '../../api/ListMovies';
 import { MoviesList } from 'components/MoviesList/Movieslist';
+import css from './HomePage.module.css';
 
-export const HomePage = () => {
+const HomePage = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -10,7 +11,6 @@ export const HomePage = () => {
       try {
         const data = await getTrendingMovies();
         setMovies(data);
-        console.log('data in try', data);
       } catch (error) {
         console.log('error in catch', error);
       }
@@ -20,9 +20,10 @@ export const HomePage = () => {
   }, []);
 
   return (
-    <>
-      <h1>Trending movies with week:</h1>
+    <section className={css.container}>
+      <h1 >Trending movies with week:</h1>
       {movies && <MoviesList movies={movies} />}
-    </>
+    </section>
   );
 };
+export default HomePage;
