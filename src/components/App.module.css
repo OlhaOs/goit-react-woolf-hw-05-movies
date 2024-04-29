@@ -22,3 +22,8 @@ header {
     scale: calc(1.1);
   }
 }
+.loader {
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+}

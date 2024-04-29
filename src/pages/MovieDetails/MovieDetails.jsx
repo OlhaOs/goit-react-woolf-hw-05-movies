@@ -2,10 +2,11 @@ import { getMovieDetails } from 'api/ListMovies';
 import { useState, useEffect } from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import css from './MovieDetails.module.css';
+import picturenotFound from './notFound.jpg';
+import { Notification } from 'components/Notification/Notification';
 
 const MovieDetails = () => {
   const [movieInfo, setMovieInfo] = useState({});
-  const [loading, setLoading] = useState(false);
   const { movieId } = useParams();
 
   useEffect(() => {
@@ -14,8 +15,7 @@ const MovieDetails = () => {
         const data = await getMovieDetails(movieId);
         setMovieInfo(data);
       } catch (error) {
-        console.error('Error fetching movie details:', error);
-        throw error;
+        <Notification message={error} />;
       }
     };
     getDetails();
@@ -26,11 +26,21 @@ const MovieDetails = () => {
 
   return (
     <>
+      <Link to="/" className={css.navLink}>
+        Go back to main
+      </Link>
+
       <section className={css.movieDetailSection}>
-        {poster_path && (
+        {poster_path ? (
           <img
             className={css.movieDetailsImage}
             src={`https://image.tmdb.org/t/p/w200${poster_path}`}
+            alt={tagline}
+          />
+        ) : (
+          <img
+            className={css.movieDetailsImage}
+            src={`${picturenotFound}`}
             alt={tagline}
           />
         )}

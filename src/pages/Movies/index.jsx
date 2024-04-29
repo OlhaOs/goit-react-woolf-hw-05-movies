@@ -2,35 +2,61 @@ import { getSearchMovies } from 'api/ListMovies';
 import { MoviesList } from 'components/MoviesList/Movieslist';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import css from './Movies.module.css';
+import { Notification } from 'components/Notification/Notification';
+import { Bars } from 'react-loader-spinner';
 
 const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [movies, setMovies] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [isMovieFound, setIsMovieFound] = useState(false);
 
   const query = searchParams.get('query') ?? '';
 
-  const [movies, setMovies] = useState([]);
-
   const handleSubmit = async e => {
     e.preventDefault();
+    setLoading(true);
+    setIsMovieFound(false);
     try {
       const data = await getSearchMovies(query);
       setMovies(data);
+      if (data.length === 0) {
+        setIsMovieFound(true);
+      }
     } catch (error) {
-      console.log(error);
+      <Notification message={error} />;
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
-      <form className="searchForm" onSubmit={handleSubmit}>
+      <form className={css.searchForm} onSubmit={handleSubmit}>
         <input
+          className={css.searchInput}
           value={query}
           onChange={e => setSearchParams({ query: e.target.value })}
         />
-        <button type="submit">Search</button>
+        <button className={css.searchBtn} type="submit">
+          Search
+        </button>
       </form>
-
-      {movies && <MoviesList movies={movies} />}
+      {loading ? (
+        <Bars
+          height="60"
+          width="120"
+          color="#727378"
+          ariaLabel="bars-loading"
+          wrapperClass={css.loader}
+          visible={true}
+        />
+      ) : movies && movies.length > 0 ? (
+        <MoviesList movies={movies} />
+      ) : (
+        isMovieFound && <Notification message={'Sorry, no match found'} /> // Відображати Notification лише якщо showNotification === true
+      )}
     </>
   );
 };

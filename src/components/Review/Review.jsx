@@ -2,37 +2,50 @@ import { getMovieReview } from 'api/ListMovies';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import css from './Review.module.css';
+import { Notification } from 'components/Notification/Notification';
+import { Bars } from 'react-loader-spinner';
 
 const Review = () => {
   const { movieId } = useParams();
-  const [reviews, setReviews] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getReview = async () => {
+      setLoading(true);
       try {
         const data = await getMovieReview(movieId);
         setReviews(data);
-      } catch (error) {}
+      } catch (error) {
+        <Notification message={error} />;
+      } finally {
+        setLoading(false);
+      }
     };
     getReview();
   }, [movieId]);
 
   return (
     <>
-      {reviews ? (
-        <section className={css.reviewSection}>
-          <ul>
-            {reviews.map(({ id, author, content }) => (
-              <li key={id}>
-                <h3>Author: {author}</h3> <p>{content}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
+      {loading ? (
+        <Bars
+          height="60"
+          width="120"
+          color="#727378"
+          ariaLabel="bars-loading"
+          wrapperClass={css.loader}
+          visible={true}
+        />
+      ) : reviews.length > 0 ? (
+        <ul className={css.reviewSection}>
+          {reviews.map(({ id, author, content }) => (
+            <li key={id}>
+              <h3>Author: {author}</h3> <p>{content}</p>
+            </li>
+          ))}
+        </ul>
       ) : (
-        <section>
-          <h2>We don't have reviews on this movie</h2>
-        </section>
+        <Notification message={`We don't have reviews on this movie`} />
       )}
     </>
   );
