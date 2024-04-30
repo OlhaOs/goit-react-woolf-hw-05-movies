@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import css from './Cast.module.css';
 import picturenotFound from './notFound.jpg';
 import { Notification } from 'components/Notification/Notification';
-import { Bars } from 'react-loader-spinner';
+import { Loader } from 'components/Loader/Loader';
 
 const Cast = () => {
   const { movieId } = useParams();
@@ -29,34 +29,22 @@ const Cast = () => {
 
   return (
     <>
-      {' '}
       {loading ? (
-        <Bars
-          height="60"
-          width="120"
-          color="#727378"
-          ariaLabel="bars-loading"
-          wrapperClass={css.loader}
-          visible={true}
-        />
+        <Loader />
       ) : cast.length > 0 ? (
         <section className={css.castSection}>
           <ul className={css.castList}>
             {cast.map(({ id, profile_path, name, character }) => (
               <li key={id} className={css.castListItem}>
-                {profile_path ? (
-                  <img
-                    className={css.castImg}
-                    src={`https://image.tmdb.org/t/p/w200${profile_path}`}
-                    alt={name}
-                  />
-                ) : (
-                  <img
-                    className={css.castImgPlaceholder}
-                    src={`${picturenotFound}`}
-                    alt={name}
-                  />
-                )}
+                <img
+                  className={css.castImg}
+                  src={
+                    profile_path
+                      ? `https://image.tmdb.org/t/p/w200${profile_path}`
+                      : `${picturenotFound}`
+                  }
+                  alt={name}
+                />
                 <p className={css.castName}>{name}</p>
                 <p className={css.castText}>Character - {character}</p>
               </li>

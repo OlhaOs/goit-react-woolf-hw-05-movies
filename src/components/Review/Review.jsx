@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import css from './Review.module.css';
 import { Notification } from 'components/Notification/Notification';
-import { Bars } from 'react-loader-spinner';
+import { Loader } from 'components/Loader/Loader';
 
 const Review = () => {
   const { movieId } = useParams();
@@ -28,14 +28,7 @@ const Review = () => {
   return (
     <>
       {loading ? (
-        <Bars
-          height="60"
-          width="120"
-          color="#727378"
-          ariaLabel="bars-loading"
-          wrapperClass={css.loader}
-          visible={true}
-        />
+        <Loader />
       ) : reviews.length > 0 ? (
         <ul className={css.reviewSection}>
           {reviews.map(({ id, author, content }) => (

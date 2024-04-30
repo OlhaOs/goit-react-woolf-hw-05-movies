@@ -23,13 +23,12 @@
   display: block;
   box-shadow: 1px 4px 4px 4px rgb(170, 166, 166, 0.6);
   border-radius: 2px;
+  width: 200px;
 }
+
 .castName {
   font-weight: 500;
 }
 .castText {
   word-wrap: break-word;
-}
-.castImgPlaceholder {
-  width: 200px;
 }

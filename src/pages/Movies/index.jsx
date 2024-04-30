@@ -2,13 +2,13 @@ import { getSearchMovies } from 'api/ListMovies';
 import { MoviesList } from 'components/MoviesList/Movieslist';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import css from './Movies.module.css';
 import { Notification } from 'components/Notification/Notification';
-import { Bars } from 'react-loader-spinner';
+import { Loader } from 'components/Loader/Loader';
+import { SearchForm } from 'components/SearchForm/SearchForm';
 
 const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [movies, setMovies] = useState(null);
+  const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isMovieFound, setIsMovieFound] = useState(false);
 
@@ -33,29 +33,17 @@ const Movies = () => {
 
   return (
     <>
-      <form className={css.searchForm} onSubmit={handleSubmit}>
-        <input
-          className={css.searchInput}
-          value={query}
-          onChange={e => setSearchParams({ query: e.target.value })}
-        />
-        <button className={css.searchBtn} type="submit">
-          Search
-        </button>
-      </form>
+      <SearchForm
+        handleSubmit={handleSubmit}
+        query={query}
+        setSearchParams={setSearchParams}
+      />
       {loading ? (
-        <Bars
-          height="60"
-          width="120"
-          color="#727378"
-          ariaLabel="bars-loading"
-          wrapperClass={css.loader}
-          visible={true}
-        />
-      ) : movies && movies.length > 0 ? (
+        <Loader />
+      ) :  movies.length > 0 ? (
         <MoviesList movies={movies} />
       ) : (
-        isMovieFound && <Notification message={'Sorry, no match found'} /> // Відображати Notification лише якщо showNotification === true
+        isMovieFound && <Notification message={'Sorry, no match found'} />
       )}
     </>
   );
