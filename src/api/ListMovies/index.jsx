@@ -8,9 +8,7 @@ export const getTrendingMovies = async () => {
 };
 
 export const getSearchMovies = async query => {
-  const { data } = await instance(
-    `/search/movie?query=${query}&api_key=${API_KEY}`
-  );
+  const { data } = await instance(`/search/movie?${query}&api_key=${API_KEY}`);
   return data.results;
 };
 

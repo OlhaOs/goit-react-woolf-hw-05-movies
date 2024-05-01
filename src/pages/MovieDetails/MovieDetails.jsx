@@ -5,11 +5,13 @@ import css from './MovieDetails.module.css';
 import picturenotFound from './notFound.jpg';
 import { Notification } from 'components/Notification/Notification';
 import { Loader } from 'components/Loader/Loader';
+import { useLocation } from 'react-router-dom';
 
 const MovieDetails = () => {
   const [movieInfo, setMovieInfo] = useState({});
   const [loading, setLoading] = useState(false);
   const { movieId } = useParams();
+  const location = useLocation();
 
   useEffect(() => {
     const getDetails = async () => {
@@ -28,11 +30,12 @@ const MovieDetails = () => {
 
   const { title, poster_path, overview, tagline, vote_average, genres } =
     movieInfo;
+  const backLink = location.state?.from ?? '/';
 
   return (
     <>
-      <Link to="/" className={css.navLink}>
-        Go back to main
+      <Link to={backLink} className={css.navLink}>
+        Go back
       </Link>
       {loading ? (
         <Loader />
@@ -71,10 +74,14 @@ const MovieDetails = () => {
         <h3 className={css.infoAdditional}>Additional information</h3>
         <ul>
           <li className={css.itemList}>
-            <Link to="cast">Cast</Link>
+            <Link to="cast" state={location.state}>
+              Cast
+            </Link>
           </li>
           <li className={css.itemList}>
-            <Link to="reviews">Reviews</Link>
+            <Link to="reviews" state={location.state}>
+              Reviews
+            </Link>
           </li>
         </ul>
       </section>

@@ -5,6 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Notification } from 'components/Notification/Notification';
 import { Loader } from 'components/Loader/Loader';
 import { SearchForm } from 'components/SearchForm/SearchForm';
+import { useEffect } from 'react';
 
 const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -12,35 +13,37 @@ const Movies = () => {
   const [loading, setLoading] = useState(false);
   const [isMovieFound, setIsMovieFound] = useState(false);
 
-  const query = searchParams.get('query') ?? '';
-
-  const handleSubmit = async e => {
-    e.preventDefault();
-    setLoading(true);
-    setIsMovieFound(false);
-    try {
-      const data = await getSearchMovies(query);
-      setMovies(data);
-      if (data.length === 0) {
-        setIsMovieFound(true);
-      }
-    } catch (error) {
-      <Notification message={error} />;
-    } finally {
-      setLoading(false);
-    }
+  const handleSubmit = value => {
+    setSearchParams({ query: value });
   };
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      setLoading(true);
+      setIsMovieFound(false);
+      try {
+        const data = await getSearchMovies(searchParams);
+        setMovies(data);
+
+        if (data.length === 0 && searchParams.get('query')) {
+          setIsMovieFound(true);
+        }
+      } catch (error) {
+        <Notification message={error} />;
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMovies();
+  }, [searchParams]);
 
   return (
     <>
-      <SearchForm
-        handleSubmit={handleSubmit}
-        query={query}
-        setSearchParams={setSearchParams}
-      />
+      <SearchForm handleSubmit={handleSubmit} />
       {loading ? (
         <Loader />
-      ) :  movies.length > 0 ? (
+      ) : movies.length > 0 ? (
         <MoviesList movies={movies} />
       ) : (
         isMovieFound && <Notification message={'Sorry, no match found'} />

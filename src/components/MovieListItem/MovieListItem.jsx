@@ -1,10 +1,13 @@
 import css from './MovieListItem.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export const MovieListItem = ({ movie }) => {
+  const location = useLocation();
   return (
     <li className={css.listItem}>
-      <Link to={`/movie/${movie.id}`}>{movie.original_title}</Link>
+      <Link to={`/movie/${movie.id}`} state={{ from: location }}>
+        {movie.original_title}
+      </Link>
     </li>
   );
 };
